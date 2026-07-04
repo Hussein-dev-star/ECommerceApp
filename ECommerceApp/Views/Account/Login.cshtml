@@ -1,0 +1,38 @@
+﻿@model ECommerceApp.Models.LoginViewModel
+@{
+    ViewData["Title"] = "تسجيل الدخول للمتجر";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-5">
+                    <h2 class="text-center fw-bold text-primary mb-4">تسجيل الدخول</h2>
+                    <form asp-action="Login" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Email" class="form-control rounded-3" placeholder="name@example.com" />
+                            <label asp-for="Email">البريد الإلكتروني</label>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Password" class="form-control rounded-3" placeholder="Password" />
+                            <label asp-for="Password">كلمة المرور</label>
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" asp-for="RememberMe" />
+                            <label class="form-check-label text-muted" asp-for="RememberMe">تذكر بياناتي</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm mb-3">دخول 🚀</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+## Ignore Visual Studio cache and build artifacts
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+.vs/
+
+## Ignore local application settings with passwords
+/ECommerceApp/appsettings.Development.json
+/ECommerceApp/appsettings.json
+
+## Ignore user specific files
+*.user
+*.userosscache
+*.sln.docstates
+
+## Ignore uploaded product images (optional, to keep repo clean)
+/ECommerceApp/wwwroot/images/*
+!/ECommerceApp/wwwroot/images/default-product.png

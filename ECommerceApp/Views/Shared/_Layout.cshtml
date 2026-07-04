@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ECommerceApp</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ECommerceApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid d-flex justify-content-between align-items-center">
+
+              
+                <ul class="navbar-nav d-flex flex-row gap-3 list-unstyled mb-0">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fw-bold" asp-controller="Home" asp-action="Index">🏠 الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fw-bold" asp-controller="Product" asp-action="Index">🛒 المتجر</a>
+                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-primary fw-bold" asp-controller="Product" asp-action="Create">➕ إضافة منتج</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-purple fw-bold" style="color: purple;" asp-controller="Category" asp-action="Index">📂 إدارة الأقسام</a>
+                        </li>
+                    }
+                </ul>
+
+               
+                <ul class="navbar-nav d-flex flex-row gap-2 list-unstyled mb-0">
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item d-flex align-items-center">
+                            <span class="badge bg-info text-dark p-2 rounded-pill me-2">
+                                👤 @User.Identity.Name (@(User.IsInRole("Admin") ? "Admin" : "Customer"))
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold">خروج 🚪</button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="btn btn-outline-primary btn-sm px-3 rounded-pill fw-bold" href="/Account/Login">تسجيل الدخول</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-success btn-sm text-white px-3 rounded-pill fw-bold" href="/Account/Register">حساب جديد ✨</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark fw-bold" asp-controller="Cart" asp-action="Index">🛍️ السلة</a>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2026 - ECommerceApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ECommerceApp.Models.Product>
+@{
+    ViewData["Title"] = "سلة المشتريات 🛒";
+}
+
+<div class="container mt-5">
+    <h2 class="fw-bold mb-4">🛒 سلة المشتريات الخاصة بك</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center py-4">سلتك فارغة حالياً، اذهب للمتجر وأضف منتجات!</div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table align-middle bg-white shadow-sm rounded border">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>المنتج</th>
+                            <th>الاسم</th>
+                            <th>السعر</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><img src="@item.ImageUrl" style="width:60px; height:60px; object-fit:contain;" /></td>
+                                <td class="fw-bold">@item.Name</td>
+                                <td class="text-success fw-bold">@item.Price.ToString("C")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm p-4">
+                    <h4>ملخص الطلب</h4>
+                    <hr>
+                    <div class="d-flex justify-content-between h5">
+                        <span>الإجمالي القديم:</span>
+                        <span class="text-success fw-bold">@ViewBag.Total.ToString("C")</span>
+                    </div>
+                    <button class="btn btn-primary w-100 rounded-pill mt-4 btn-lg">تأكيد الشراء والدفع 💳</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
