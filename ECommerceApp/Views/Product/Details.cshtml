@@ -9,12 +9,10 @@
         <div class="col-md-10">
             <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
                 <div class="row g-0">
-                    <!-- جانب الصورة -->
                     <div class="col-md-5 bg-light d-flex align-items-center justify-content-center p-4">
                         <img src="@Model.ImageUrl" class="img-fluid rounded-3" alt="@Model.Name" style="max-height: 400px; object-fit: contain;">
                     </div>
 
-                    <!-- جانب البيانات -->
                     <div class="col-md-7">
                         <div class="card-body p-5">
                             <span class="badge bg-primary px-3 py-2 rounded-pill mb-3">@Model.Category?.Name</span>
@@ -46,14 +44,27 @@
                                 }
                             </div>
 
-                            <div class="d-flex gap-3">
+                            <div class="d-flex flex-wrap gap-3 align-items-center">
                                 <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-4 rounded-pill">
                                     ⬅ العودة للمتجر
                                 </a>
-                                <a href="/Cart/AddToCart/@Model.Id" class="btn btn-primary btn-lg px-5 rounded-pill shadow-sm">🛒 إضافة إلى السلة</a>
-                                  
-                                </button>
+
+                                <form action="/Cart/AddToCart" method="post" class="d-flex gap-2 align-items-center">
+                                    @Html.AntiForgeryToken()
+
+                                    <input type="hidden" name="id" value="@Model.Id" />
+
+                                    <div class="input-group" style="width: 130px;">
+                                        <span class="input-group-text bg-light">الكمية</span>
+                                        <input type="number" name="quantity" value="1" min="1" max="10" class="form-control text-center" />
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary btn-lg px-4 rounded-pill shadow-sm fw-bold">
+                                        🛒 إضافة إلى السلة
+                                    </button>
+                                </form>
                             </div>
+
                         </div>
                     </div>
                 </div>

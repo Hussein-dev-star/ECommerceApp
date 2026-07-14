@@ -43,8 +43,15 @@
                             </span>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark fw-bold me-2" asp-controller="Cart" asp-action="Index">
+                                <i class="bi bi-cart3"></i> السلة 🛒
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-                                <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold">خروج 🚪</button>
+                                <button type="submit" class="btn btn-outline-danger btn-sm px-3 rounded-pill fw-bold">
+                                    تسجيل الخروج 🚪
+                                </button>
                             </form>
                         </li>
                     }

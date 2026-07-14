@@ -18,7 +18,7 @@ namespace ECommerceApp.Models
         [Compare("Password", ErrorMessage = "كلمة المرور وتأكيدها غير متطابقين")]
         public string ConfirmPassword { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "يرجى تحديد نوع الحساب")]
+        
         public string Role { get; set; } = string.Empty; 
     }
 }

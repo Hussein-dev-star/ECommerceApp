@@ -23,36 +23,42 @@ namespace ECommerceApp.Controllers
         public IActionResult Register() => View();
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+
+
+[HttpPost]
+    public async Task<IActionResult> Register(RegisterViewModel model)
+    {
+        ModelState.Remove("Role");
+
+        if (ModelState.IsValid)
         {
-            if (ModelState.IsValid)
+            var savedCart = HttpContext.Session.GetString("ShoppingCart");
+
+            var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
             {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                await _userManager.AddToRoleAsync(user, "Customer");
+                await _signInManager.SignInAsync(user, isPersistent: false);
 
-                if (result.Succeeded)
+                if (!string.IsNullOrEmpty(savedCart))
                 {
-                    if (!await _roleManager.RoleExistsAsync(model.Role))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(model.Role));
-                    }
-
-                    await _userManager.AddToRoleAsync(user, model.Role);
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Product");
+                    HttpContext.Session.SetString("ShoppingCart", savedCart);
                 }
 
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                return RedirectToAction("Index", "Home");
             }
-            return View(model);
-        }
 
-        [HttpGet]
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+        return View(model);
+    }
+
+    [HttpGet]
         public IActionResult Login() => View();
 
         [HttpPost]
@@ -72,13 +78,14 @@ namespace ECommerceApp.Controllers
             }
             return View(model);
         }
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Product");
+
+            HttpContext.Session.Remove("ShoppingCart");
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -5,14 +5,11 @@ using ECommerceApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. تسجيل خدمات الـ Controllers والـ Views
 builder.Services.AddControllersWithViews();
 
-// 2. إعداد الاتصال بقاعدة البيانات (SQL Server)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 3. تسجيل خدمات الـ Identity للحسابات والصلاحيات الحقيقية
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => {
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 6;
@@ -21,10 +18,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => {
 })
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-// إعداد مسار صفحة اللوجن الافتراضية
 builder.Services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
 
-// 4. تفعيل الـ HttpContext والـ Session للسلة (تسجيل الخدمة مرة واحدة فقط)
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(options => {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -32,7 +27,6 @@ builder.Services.AddSession(options => {
 
 var app = builder.Build();
 
-// 5. إعدادات بيئة التطوير والـ Production
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -42,14 +36,11 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
-// 6. ترتيب الـ Middlewares الإلزامي (مهم جداً)
-app.UseAuthentication(); // التحقق من الحساب
-app.UseAuthorization();  // التحقق من الصلاحيات
-app.UseSession();        // تفعيل السلة المؤقتة (مكتوب مرة واحدة هنا بس)
-
+app.UseAuthentication(); 
+app.UseAuthorization(); 
+app.UseSession();        
 app.MapStaticAssets();
 
-// 7. كود توليد البيانات الافتراضية (الأدمن + الـ 10 منتجات + الأقسام)
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -182,9 +173,15 @@ using (var scope = app.Services.CreateScope())
     );
     context.SaveChanges();
 }
+app.UseHttpsRedirection();
+app.UseStaticFiles();
 
+app.UseRouting();
 
-// 8. خريطة مسارات الـ Routes للـ URLs
+app.UseSession();        
+app.UseAuthentication();  
+app.UseAuthorization();   
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")

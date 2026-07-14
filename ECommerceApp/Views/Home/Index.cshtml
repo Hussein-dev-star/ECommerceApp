@@ -4,7 +4,6 @@
     ViewData["Title"] = "الصفحة الرئيسية - متجر إلكتروني";
 }
 
-<!-- البنر الرئيسي (Hero Section) -->
 <div class="bg-dark text-white py-5 mb-5 rounded-4 shadow" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6));">
     <div class="container py-5 text-center">
         <h1 class="display-3 fw-bold mb-3 text-warning">أهلاً بك في ECommerceApp 🛒</h1>
@@ -15,7 +14,6 @@
     </div>
 </div>
 
-<!-- قسم المنتجات المميزة / الأعلى مبيعاً -->
 <div class="container my-5">
     <h2 class="text-center fw-bold text-dark mb-4">🔥 المنتجات الأكثر مبيعاً المقترحة لك</h2>
     <div class="row">
@@ -34,7 +32,10 @@
                             <span class="badge bg-secondary align-self-start mb-2">@product.Category?.Name</span>
                             <h5 class="card-title fw-bold text-dark">@product.Name</h5>
                             <span class="h5 fw-bold text-success mt-auto">@product.Price.ToString("C")</span>
-                            <a href="/Product/Details/@product.Id" class="btn btn-sm btn-outline-primary mt-3 rounded-pill">عرض المنتج</a>
+
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-outline-primary btn-sm rounded-pill w-100 mt-2">
+                                عرض المنتج
+                            </a>
                         </div>
                     </div>
                 </div>

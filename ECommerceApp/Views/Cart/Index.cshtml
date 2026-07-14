@@ -26,6 +26,12 @@
                         @foreach (var item in Model)
                         {
                             <tr>
+                                <td>
+                                    <a asp-action="RemoveFromCart" asp-controller="Cart" asp-route-id="@item.Id"
+                                       class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                        ❌ حذف
+                                    </a>
+                                </td>
                                 <td><img src="@item.ImageUrl" style="width:60px; height:60px; object-fit:contain;" /></td>
                                 <td class="fw-bold">@item.Name</td>
                                 <td class="text-success fw-bold">@item.Price.ToString("C")</td>
